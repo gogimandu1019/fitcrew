@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FitCrew 디자인 시스템</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0E0F0E; --card:#181A18; --card-border:#2B2E2B; --off:#2A2D2A; --field:#222522; --line:#3A3E3A;
+  --lime:#C8F031; --lime-tint:#1E2A12;
+  --text:#F2F4EF; --text-sub:#C9CEC4; --text-muted:#9AA096; --text-disabled:#8A9086; --text-dim:#6C726A;
+  --danger:#FF5C5C;
+  --r-cell:12px; --r-button:16px; --r-card:20px; --r-hero:28px;
+  --num:'Barlow Condensed',sans-serif;
+  --sys:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Roboto',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--night);color:var(--text);font-family:var(--sys);line-height:1.5;padding:0 16px 80px}
+main{max-width:960px;margin:0 auto}
+header{padding:48px 0 24px;display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline;justify-content:space-between}
+h1{font-size:32px;font-weight:800}
+.note{font-size:13px;color:var(--text-muted)}
+h2{font-size:12px;letter-spacing:1px;color:var(--text-muted);font-weight:500;margin:48px 0 16px;text-transform:uppercase}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.g3{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.sw{border-radius:var(--r-button);padding:14px;height:84px;display:flex;flex-direction:column;justify-content:flex-end;font-size:13px}
+.sw b{font-size:15px}
+.panel{background:var(--card);border-radius:var(--r-card);padding:20px;display:flex;flex-direction:column;gap:14px}
+.label{font-size:12px;color:var(--text-muted)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.num{font-family:var(--num);font-weight:700}
+/* sport palette */
+.dot{width:36px;height:36px;border-radius:50%;flex:none}
+.chip{padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.pal{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.pal .c{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--text-muted)}
+.pal .dot{width:44px;height:44px}
+/* buttons */
+.cta{height:56px;border:none;border-radius:var(--r-button);background:var(--lime);color:var(--night);font:700 17px var(--sys);width:100%}
+.cta[disabled]{background:var(--field);color:var(--text-disabled)}
+.cta.kakao{background:#FEE500;color:#191919}
+.cta.ghost{background:var(--field);color:var(--text)}
+.cta.danger{background:transparent;color:var(--danger);border:1px solid #4a2626}
+/* avatars */
+.av{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;color:var(--night);flex:none}
+.av.on{box-shadow:0 0 0 3px var(--night),0 0 0 5px var(--lime)}
+.av.off{background:var(--off);color:var(--text-disabled)}
+.av.sm{width:38px;height:38px;font-size:13px}
+.av.sm.on{box-shadow:0 0 0 2px var(--night),0 0 0 4px var(--lime)}
+/* progress */
+.bar{height:12px;border-radius:6px;background:var(--off)}.bar>i{display:block;height:100%;border-radius:6px;background:var(--lime)}
+/* inputs */
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:13px;color:var(--text-muted)}
+.inp{height:54px;border-radius:var(--r-button);background:var(--card);border:1px solid var(--card-border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:17px}
+.inp.focus{border:2px solid var(--lime)}
+.inp.err{border:2px solid var(--danger)}
+.inp .unit{font-size:14px;color:var(--text-muted)}
+.inp .ph{color:var(--text-dim)}
+.help{font-size:12px;color:var(--text-muted)}
+.help.err{color:var(--danger)}
+.seg{display:flex;background:var(--card);border:1px solid var(--card-border);border-radius:var(--r-button);padding:3px}
+.seg span{flex:1;text-align:center;padding:10px 0;border-radius:13px;font-size:15px;color:var(--text-muted)}
+.seg span.sel{background:var(--lime);color:var(--night);font-weight:700}
+.cell{flex:1;min-width:0;max-width:48px;height:54px;border-radius:var(--r-cell);background:var(--card);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;font:700 28px var(--num)}
+.cell.cur{border:2px solid var(--lime)}
+.cell.err{border:2px solid var(--danger)}
+/* progress steps */
+.steps{display:flex;gap:6px}.steps i{flex:1;height:4px;border-radius:2px;background:var(--off)}.steps i.on{background:var(--lime)}
+/* tab bar */
+.tabbar{position:relative;height:84px;background:#141614;border:1px solid var(--card-border);border-radius:var(--r-card);padding:0 12px 12px;display:flex;align-items:center;justify-content:space-around;font-size:11px;color:var(--text-disabled);margin-top:56px}
+.tabbar .t{display:flex;flex-direction:column;align-items:center;gap:4px;width:64px}
+.tabbar .t.sel{color:var(--text);font-weight:700}
+.tabbar .ic{width:22px;height:22px;border-radius:6px;border:2px solid currentColor}
+.tabbar .fab{position:absolute;right:calc(100%/6 - 24px);bottom:calc(100% + 12px);width:64px;height:56px;border-radius:20px;background:var(--lime);color:var(--night);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+/* toast / empty */
+.toast{background:#2b1c1c;border:1px solid #4a2626;color:#FFB4B4;border-radius:var(--r-button);padding:12px 16px;font-size:14px;display:flex;gap:10px;align-items:center}
+.empty{border:1px dashed var(--line);border-radius:var(--r-card);padding:28px 20px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center}
+.empty .ring{display:flex;gap:-4px}
+.ruler{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.ruler div{background:var(--off);color:var(--text-sub);font-size:11px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px}
+.new{display:inline-block;font-size:10px;font-weight:700;background:var(--lime);color:var(--night);border-radius:4px;padding:1px 6px;margin-left:8px;letter-spacing:0;vertical-align:middle}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>FitCrew 디자인 시스템</h1>
+  <div class="note">다크 단일 테마 · 시안에서 추출한 값 + <span class="new" style="margin:0">NEW</span> 신규 제안 · 토큰: app/src/design/tokens.ts</div>
+</header>
+
+<h2>Color · 바탕과 글자</h2>
+<div class="grid g2">
+  <div class="sw" style="background:var(--lime);color:var(--night)"><b>Lime</b>#C8F031</div>
+  <div class="sw" style="background:var(--night);border:1px solid var(--line)"><b>Night</b><span class="note">#0E0F0E</span></div>
+  <div class="sw" style="background:var(--card);border:1px solid var(--card-border)"><b>Card</b><span class="note">#181A18</span></div>
+  <div class="sw" style="background:var(--off)"><b>Off</b><span class="note">#2A2D2A</span></div>
+  <div class="sw" style="background:var(--field)"><b>Field</b><span class="note">#222522</span></div>
+  <div class="sw" style="background:var(--danger);color:var(--night)"><b>Danger<span class="new">NEW</span></b>#FF5C5C</div>
+</div>
+<div class="panel" style="margin-top:12px">
+  <div class="row" style="gap:20px">
+    <span style="color:var(--text)">text F2F4EF · 17.3</span>
+    <span style="color:var(--text-sub)">sub C9CEC4 · 12.0</span>
+    <span style="color:var(--text-muted)">muted 9AA096 · 7.2</span>
+    <span style="color:var(--text-disabled)">disabled 8A9086 · 5.9</span>
+    <span style="color:var(--text-dim)">dim 6C726A · 3.9 (큰 숫자·장식만)</span>
+  </div>
+  <div class="label">숫자는 배경 #0E0F0E 위 명도 대비. 본문 4.5 이상 권장 — dim은 본문에 쓰지 않는다.</div>
+</div>
+
+<h2>Color · 종목 팔레트 <span class="new">NEW 8색</span></h2>
+<div class="panel">
+  <div class="label">사용자가 종목마다 고르는 팔레트. 라임은 제외(완료 신호 전용). 하늘·코랄·보라·앰버는 시안 값, 민트·핑크·오렌지·화이트가 추가. 전부 어두운 배경 대비 7.5:1 이상.</div>
+  <div class="pal" id="pal"></div>
+  <div class="row" id="chips"></div>
+  <div class="label">라임은 "했다" 신호(완료 링·주간 카드·1위·기록 버튼) 전용이라 종목 색에서 뺐다. 화이트는 본문 글자색(#F2F4EF)과 구분되도록 순백 #FFFFFF를 쓴다.</div>
+</div>
+
+<h2>Color · 아바타 팔레트 <span class="new">NEW 8색</span></h2>
+<div class="panel">
+  <div class="row" id="avs"></div>
+  <div class="label">멤버별 고정 배정. 라임은 제외(완료 링 전용). 꺼진 상태는 #2A2D2A + disabled 글자(#8A9086, 대비 4.3:1).</div>
+</div>
+
+<h2>Type · 숫자는 크게, 글은 조용히</h2>
+<div class="grid g3">
+  <div class="panel">
+    <div class="label">Barlow Condensed 800 · 숫자 전용</div>
+    <div class="num" style="font-weight:800;font-size:76px;line-height:.95;color:var(--lime)">2:25</div>
+    <div class="row"><span class="num" style="font-size:28px">R7K2</span><span class="num" style="font-size:22px;color:var(--lime)">5 <span style="color:var(--text-dim)">/ 8</span></span><span class="num" style="font-size:17px">2:10</span></div>
+  </div>
+  <div class="panel">
+    <div class="label">시스템 폰트 (iOS 애플SD산돌고딕Neo · Android Roboto/Noto CJK)</div>
+    <div style="font-size:24px;font-weight:800">제목 24 · 800</div>
+    <div style="font-size:22px;font-weight:800">크루 이름 22 · 800</div>
+    <div style="font-size:17px;font-weight:700">항목 17 · 700</div>
+    <div style="font-size:15px;color:var(--text-sub)">본문 15 · 400</div>
+    <div style="font-size:13px;color:var(--text-muted)">보조 13 · 400</div>
+  </div>
+</div>
+
+<h2>Shape · 반경과 간격</h2>
+<div class="panel">
+  <div class="ruler">
+    <div style="width:64px;height:64px;border-radius:12px">12<br>입력칸</div>
+    <div style="width:64px;height:64px;border-radius:16px">16<br>버튼</div>
+    <div style="width:64px;height:64px;border-radius:20px">20<br>카드</div>
+    <div style="width:64px;height:64px;border-radius:28px">28<br>히어로</div>
+    <div style="width:64px;height:64px;border-radius:999px">pill</div>
+  </div>
+  <div class="label">간격은 4pt 기반: 4 · 8 · 12 · 16 · 20 · 24 · 40. 화면 좌우 여백 20, CTA 높이 56, 입력 높이 54.</div>
+</div>
+
+<h2>Components · 시안에 있는 것</h2>
+<div class="grid g3">
+  <div class="panel">
+    <div class="label">CTA</div>
+    <button class="cta kakao">카카오로 시작하기</button>
+    <button class="cta">참여하기</button>
+    <button class="cta" disabled>다음</button>
+  </div>
+  <div class="panel">
+    <div class="label">아바타 · 켜짐/꺼짐</div>
+    <div class="row" style="gap:18px;padding-left:4px"><div class="av on" style="background:#E0705F">민지</div><div class="av off">하준</div><div class="av sm on" style="background:#5CA8E0">지호</div><div class="av sm off">유나</div></div>
+    <div class="label">주간 진행 막대</div>
+    <div class="bar"><i style="width:60%"></i></div>
+    <div class="label">강도</div>
+    <div class="row"><span class="chip" style="background:var(--field);color:var(--text-sub);font-weight:400">가볍게</span><span class="chip" style="background:var(--field);color:var(--text);">보통</span><span class="chip" style="background:var(--field);color:var(--text-sub);font-weight:400">힘들게</span></div>
+  </div>
+  <div class="panel">
+    <div class="label">그룹 코드 입력칸</div>
+    <div class="row" style="gap:8px"><div class="cell">R</div><div class="cell">U</div><div class="cell">N</div><div class="cell cur"></div><div class="cell"></div><div class="cell"></div></div>
+    <div class="label">오류 상태 <span class="new">NEW</span></div>
+    <div class="row" style="gap:8px"><div class="cell err">R</div><div class="cell err">U</div><div class="cell err">N</div><div class="cell err">2</div><div class="cell err">4</div><div class="cell err">X</div></div>
+    <div class="help err">없는 코드예요. 다시 확인해 주세요.</div>
+  </div>
+</div>
+
+<h2>Components · 새로 필요한 것 <span class="new">NEW</span></h2>
+<div class="grid g3">
+  <div class="panel">
+    <div class="label">초기 설정 진행 표시줄 (1/3 → 3/3)</div>
+    <div class="steps"><i class="on"></i><i class="on"></i><i></i></div>
+    <div class="label">세그먼트 컨트롤 (성별)</div>
+    <div class="seg"><span>남성</span><span class="sel">여성</span><span>선택 안 함</span></div>
+  </div>
+  <div class="panel">
+    <div class="label">텍스트 입력 · 기본 / 포커스 / 오류</div>
+    <div class="field"><label>닉네임</label><div class="inp"><span class="ph">크루에게 보이는 이름</span></div></div>
+    <div class="field"><label>키</label><div class="inp focus"><span>172</span><span class="unit">cm</span></div></div>
+    <div class="field"><label>나이</label><div class="inp err"><span>12</span><span class="unit">세</span></div><div class="help err">만 14세 이상부터 가입할 수 있어요.</div></div>
+    <div class="help">신체 정보는 운동량 추천에만 쓰이고 크루에게 공개되지 않아요.</div>
+  </div>
+  <div class="panel">
+    <div class="label">종목 자유 입력 + 색 선택 (기록 화면)</div>
+    <div class="inp focus"><span>클라이밍</span><span class="unit">직접 입력</span></div>
+    <div class="row" id="recent"></div>
+    <div class="label">색</div>
+    <div class="pal" id="pick"></div>
+  </div>
+  <div class="panel">
+    <div class="label">하단 탭 3개 (홈 · 랭킹 · 내 정보) + 띄운 기록 버튼</div>
+    <div class="tabbar">
+      <div class="t sel"><div class="ic"></div>홈</div>
+      <div class="t"><div class="ic"></div>랭킹</div>
+      <div class="t"><div class="ic"></div>내 정보</div>
+      <div class="fab">+<span>기록</span></div>
+    </div>
+    <div class="label">기록 버튼은 탭이 아니라 "내 정보" 탭 바로 위에 떠 있는 라임 버튼. 라임을 쓰는 곳 중 하나.</div>
+  </div>
+  <div class="panel">
+    <div class="label">오류 토스트 / 빈 상태</div>
+    <div class="toast"><span>⚠</span>이 크루는 정원 30명이 가득 찼어요.</div>
+    <div class="empty">
+      <div class="row" style="gap:8px"><div class="av sm off">나</div><div class="av sm off">+</div></div>
+      <div style="font-weight:700">아직 크루원이 나뿐이에요</div>
+      <div class="note">코드를 공유해서 크루원을 불러 보세요.</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="label">위험 동작 버튼 (강퇴 · 계정 삭제)</div>
+    <button class="cta danger">크루원 내보내기</button>
+    <div class="label">항상 확인 시트를 한 번 더 거친다. 크루장에게만 보임.</div>
+  </div>
+</div>
+
+<h2>결정 기록</h2>
+<div class="panel">
+  <div style="font-size:15px;color:var(--text-sub);display:flex;flex-direction:column;gap:10px">
+    <div><b>라임은 종목 색에서 제외.</b> 대신 화이트(#FFFFFF)를 추가해 8색 유지. 러닝 기본색은 민트.</div>
+    <div><b>한글은 시스템 폰트.</b> 숫자(시간·순위·코드)만 Barlow Condensed를 앱에 포함. 제목 굵기는 시스템 폰트가 안정적으로 지원하는 800으로 낮춤(시안은 900).</div>
+    <div><b>꺼진 아바타 글자</b>는 #6C726A(2.8:1)에서 #8A9086으로 올림.</div>
+  </div>
+</div>
+</main>
+<script>
+const P=[['sky','#5CC8FF','하늘'],['coral','#FF7A66','코랄'],['violet','#B79CFF','보라'],['amber','#FFC24D','앰버'],['mint','#6FC9A0','민트'],['pink','#FF8FC7','핑크'],['orange','#FF9E4A','오렌지'],['white','#FFFFFF','화이트']];
+const dots=(sel,ring)=>P.map(([k,h,l],i)=>`<div class="c"><div class="dot" style="background:${h};display:flex;align-items:center;justify-content:center;color:var(--night);font-weight:800;${ring&&i==0?'box-shadow:0 0 0 3px var(--night),0 0 0 5px var(--text-muted)':''}">${ring&&i==0?'✓':''}</div>${l}</div>`).join('');
+document.getElementById('pal').innerHTML=dots();
+document.getElementById('pick').innerHTML=dots(1,true);
+document.getElementById('chips').innerHTML=[['러닝',4],['수영',0],['헬스',1],['요가',2],['사이클',3],['클라이밍',7]].map(([n,i])=>`<span class="chip" style="background:${P[i][1]}24;color:${P[i][1]}">${n}</span>`).join('');
+document.getElementById('recent').innerHTML=['러닝','수영','헬스','요가','사이클'].map(n=>`<span class="chip" style="background:var(--field);color:var(--text-sub)">${n}</span>`).join('');
+document.getElementById('avs').innerHTML=['#E0705F','#5CA8E0','#B79CFF','#E8B84A','#6FC9A0','#E58FB8','#E89452','#7FD0D0'].map((c,i)=>`<div class="av ${i<5?'on':''}" style="background:${c}">${['민지','지호','서연','도윤','나','하준','유나','태오'][i]}</div>`).join('');
+</script>
+</body>
+</html>

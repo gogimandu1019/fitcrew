@@ -1,0 +1,58 @@
+{
+  "expo": {
+    "name": "FitCrew",
+    "slug": "fitcrew",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "fitcrew",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "icon": "./assets/expo.icon",
+      "bundleIdentifier": "com.fitcrew.app",
+      "supportsTablet": false,
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0E0F0E",
+        "foregroundImage": "./assets/images/android-icon-foreground.png",
+        "backgroundImage": "./assets/images/android-icon-background.png",
+        "monochromeImage": "./assets/images/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.fitcrew.app",
+      "versionCode": 1
+    },
+    "web": {
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "name": "FitCrew",
+      "shortName": "FitCrew",
+      "lang": "ko",
+      "description": "크루원과 함께 운동 시간을 기록하고 주간 목표를 채우는 그룹 운동 앱",
+      "themeColor": "#0E0F0E",
+      "backgroundColor": "#0E0F0E"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#0E0F0E",
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 76
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "backgroundColor": "#0E0F0E",
+    "description": "크루원과 함께 운동 시간을 기록하고 주간 목표를 채우는 그룹 운동 앱"
+  }
+}

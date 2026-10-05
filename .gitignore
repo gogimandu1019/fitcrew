@@ -1,0 +1,21 @@
+node_modules/
+.DS_Store
+
+# 비밀·개인 파일: 절대 커밋하지 않는다
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+client_secret*.json
+oauth.txt
+비공개.txt
+*.p8
+*.p12
+*.pem
+*.key
+
+# 빌드·캐시
+dist/
+.expo/

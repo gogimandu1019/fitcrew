@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FitCrew 새 화면 목업</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#0E0F0E; --card:#181A18; --card-border:#2B2E2B; --off:#2A2D2A; --field:#222522; --line:#3A3E3A;
+  --lime:#C8F031; --lime-tint:#1E2A12;
+  --text:#F2F4EF; --text-sub:#C9CEC4; --text-muted:#9AA096; --text-disabled:#8A9086; --text-dim:#6C726A;
+  --danger:#FF5C5C;
+  --num:'Barlow Condensed',sans-serif;
+  --sys:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Malgun Gothic','Noto Sans CJK KR','Roboto',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#060706;color:var(--text);font-family:var(--sys);padding:40px 24px 80px}
+.page{max-width:1700px;margin:0 auto}
+h1{font-size:28px;font-weight:800}
+.lead{color:var(--text-muted);font-size:14px;margin:6px 0 0;max-width:760px;line-height:1.6}
+h2{font-size:12px;letter-spacing:1px;color:var(--text-muted);font-weight:500;margin:48px 0 16px;text-transform:uppercase}
+.rowf{display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start}
+.fr{display:flex;flex-direction:column;gap:10px}
+.cap{font-size:13px;color:var(--text-sub);max-width:390px;line-height:1.5}
+.cap b{color:var(--text)}
+.cap .tag{display:inline-block;font-size:10px;font-weight:700;background:var(--lime);color:var(--night);border-radius:4px;padding:1px 6px;margin-right:6px}
+
+/* ---- phone ---- */
+.phone{width:390px;height:844px;position:relative;overflow:hidden;background:var(--night);border-radius:36px;border:1px solid var(--card-border);display:flex;flex-direction:column;padding:24px 20px 28px}
+.num{font-family:var(--num);font-weight:700}
+.top{display:flex;align-items:center;gap:12px;height:44px;flex:none}
+.ib{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text);flex:none;margin-left:-8px}
+.steps{display:flex;gap:6px;flex:1}.steps i{flex:1;height:4px;border-radius:2px;background:var(--off)}.steps i.on{background:var(--lime)}
+.stepn{font:700 16px var(--num);color:var(--text-muted);letter-spacing:1px}
+.ttl{font-size:30px;font-weight:800;line-height:1.28;letter-spacing:-.8px;margin-top:20px}
+.sub{font-size:15px;color:var(--text-muted);margin-top:8px;line-height:1.5}
+.body{display:flex;flex-direction:column;gap:18px;margin-top:26px;flex:1;min-height:0}
+.foot{display:flex;flex-direction:column;gap:6px;flex:none}
+.cta{height:56px;border:none;border-radius:16px;background:var(--lime);color:var(--night);font:700 17px var(--sys);width:100%}
+.cta[disabled]{background:var(--field);color:var(--text-disabled)}
+.cta.ghost{background:transparent;border:1px solid var(--line);color:var(--text);font-weight:700;height:52px;font-size:15px}
+.link{height:44px;background:none;border:none;color:var(--text-muted);font:400 15px var(--sys);text-decoration:underline}
+/* fields */
+.fld{display:flex;flex-direction:column;gap:7px;min-width:0}
+.fld>label{font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between}
+.fld>label em{font-style:normal;color:var(--text-dim)}
+.inp{height:54px;border-radius:16px;background:var(--card);border:1px solid var(--card-border);padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:17px;min-width:0}
+.inp.focus{border:2px solid var(--lime);padding:0 15px}
+.inp .u{font-size:14px;color:var(--text-muted);margin-left:6px}
+.inp .ph{color:var(--text-dim)}
+.inp .cnt{font:600 14px var(--num);color:var(--text-dim);letter-spacing:.5px}
+.caret{display:inline-block;width:2px;height:22px;background:var(--lime);vertical-align:middle;margin-left:1px}
+.seg{display:flex;background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:3px}
+.seg span{flex:1;text-align:center;padding:12px 0;border-radius:13px;font-size:15px;color:var(--text-muted)}
+.seg span.sel{background:var(--lime);color:var(--night);font-weight:700}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.note{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text-muted);line-height:1.5}
+.note svg{flex:none;margin-top:2px}
+/* chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.sp{height:46px;padding:0 16px;border-radius:999px;background:var(--field);color:var(--text-sub);display:flex;align-items:center;gap:8px;font-size:16px;border:1.5px solid transparent}
+.sp i{width:10px;height:10px;border-radius:50%;display:block}
+.sp.on{font-weight:700}
+.sp.add{background:transparent;border:1.5px dashed var(--line);color:var(--text-muted)}
+.pal{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.pal .d{aspect-ratio:1;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--night)}
+.pal .d.sel{box-shadow:0 0 0 3px var(--card),0 0 0 5px var(--text-muted)}
+.panel{background:var(--card);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.panel .l{font-size:13px;color:var(--text-muted);display:flex;justify-content:space-between;align-items:center}
+/* goal */
+.goal{display:flex;flex-direction:column;align-items:center;gap:14px;padding:26px 16px 20px}
+.goal .big{font:800 112px/1 var(--num);color:var(--text);letter-spacing:-1px}
+.goal .big small{font:700 22px var(--sys);color:var(--text-muted);margin-left:8px;letter-spacing:0}
+.step{width:56px;height:56px;border-radius:50%;background:var(--field);display:flex;align-items:center;justify-content:center;color:var(--text)}
+.goalrow{display:flex;align-items:center;justify-content:space-between;width:100%}
+.pre{display:flex;gap:6px;justify-content:center;flex-wrap:nowrap}
+.pre span{padding:8px 11px;border-radius:999px;background:var(--field);color:var(--text-sub);font:700 17px var(--num);letter-spacing:.5px}
+.pre span.sel{background:var(--lime);color:var(--night)}
+/* code cells */
+.cells{display:flex;gap:8px}
+.cell{flex:1;height:60px;border-radius:12px;background:var(--card);border:1px solid var(--card-border);display:flex;align-items:center;justify-content:center;font:700 32px var(--num)}
+.cell.cur{border:2px solid var(--lime)}
+.cell.err{border:2px solid var(--danger)}
+.err-t{font-size:13px;color:var(--danger);display:flex;gap:6px;align-items:center}
+.demo{align-self:flex-start;padding:7px 12px;border-radius:999px;background:var(--field);color:var(--text-sub);font-size:13px}
+.demo b{font:700 15px var(--num);letter-spacing:1px;color:var(--text)}
+.hint{font-size:13px;color:var(--text-muted)}
+.div{display:flex;align-items:center;gap:12px;color:var(--text-dim);font-size:13px}.div:before,.div:after{content:"";flex:1;height:1px;background:var(--card-border)}
+/* group icon */
+.gi{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:var(--night);flex:none}
+/* record */
+.two{display:grid;grid-template-columns:1.35fr 1fr;gap:10px}
+.tbox{background:var(--card);border-radius:20px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;height:100%}
+.tbox .l{font-size:13px;color:var(--text-muted)}
+.tm{display:flex;align-items:center;justify-content:space-between}
+.tm .v{font:800 52px/1 var(--num)}
+.tm .b{width:34px;height:34px;border-radius:50%;background:var(--field);display:flex;align-items:center;justify-content:center}
+.q{display:flex;gap:6px}.q span{flex:1;text-align:center;padding:5px 0;border-radius:999px;background:var(--field);font:700 14px var(--num);color:var(--text-sub)}.q span.sel{background:var(--text);color:var(--night)}
+.when{font:700 26px var(--num);display:flex;flex-direction:column;gap:2px}
+.when small{font:400 13px var(--sys);color:var(--text-muted)}
+.mode{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-muted);justify-content:center}
+.mode b{color:var(--text-sub);font-weight:700}
+/* profile */
+.prof{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:20px;padding:16px}
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--night);flex:none}
+.list{background:var(--card);border-radius:20px;overflow:hidden}
+.li{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:56px;font-size:16px;border-bottom:1px solid var(--card-border)}
+.li:last-child{border:none}
+.li .r{display:flex;align-items:center;gap:8px;color:var(--text-muted);font-size:14px}
+.li .r .n{font:700 20px var(--num);color:var(--text)}
+.dots{display:flex;gap:-4px}.dots i{width:12px;height:12px;border-radius:50%;display:block;margin-left:-3px;box-shadow:0 0 0 2px var(--card)}
+.li.dg{color:var(--danger)}
+/* tab bar */
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:84px;background:#141614;border-top:1px solid var(--card-border);padding:0 12px 12px;display:flex;align-items:center;justify-content:space-around;font-size:11px;color:var(--text-disabled)}
+.tabbar .t{width:64px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.tabbar .t.sel{color:var(--text);font-weight:700}
+.fab{position:absolute;right:41px;bottom:calc(100% + 12px);width:64px;height:56px;border-radius:20px;background:var(--lime);color:var(--night);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-size:11px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.55)}
+svg{display:block}
+</style>
+</head>
+<body>
+<div class="page">
+<h1>FitCrew 새 화면 목업</h1>
+<p class="lead">시안에 없던 화면을 디자인 시스템(<code>app/src/design/tokens.ts</code>) 값으로 그렸습니다. 모든 화면은 390 × 844, 다크 단일 테마입니다. 이번에 정한 "종목 자유 입력 + 색 선택"이 3/3 단계와 기록 화면, 내 정보에 들어가 있습니다.</p>
+
+<h2>A · 가입 후 초기 설정</h2>
+<div class="rowf">
+
+<!-- 1/3 -->
+<div class="fr"><div class="phone">
+  <div class="top"><div class="ib"><i data-i="back"></i></div><div class="steps"><i class="on"></i><i></i><i></i></div><div class="stepn">1/3</div></div>
+  <div class="ttl">나를 소개해<br>주세요</div>
+  <div class="sub">닉네임은 크루원에게 보여요.</div>
+  <div class="body">
+    <div class="fld"><label>닉네임 <em>2/10</em></label><div class="inp"><span>민지</span></div></div>
+    <div class="fld"><label>성별</label><div class="seg"><span>남성</span><span class="sel">여성</span><span>선택 안 함</span></div></div>
+    <div class="three">
+      <div class="fld"><label>나이</label><div class="inp"><span class="num" style="font-size:24px">28</span><span class="u">세</span></div></div>
+      <div class="fld"><label>키</label><div class="inp"><span class="num" style="font-size:24px">165</span><span class="u">cm</span></div></div>
+      <div class="fld"><label>몸무게</label><div class="inp focus"><span class="num" style="font-size:24px"><span class="caret"></span></span><span class="u">kg</span></div></div>
+    </div>
+    <div class="note"><i data-i="lock" data-s="16"></i><span>신체 정보는 운동량 추천에만 쓰이고 크루에게 공개되지 않아요.</span></div>
+  </div>
+  <div class="foot"><button class="cta" disabled>다음</button></div>
+</div>
+<div class="cap"><b>초기 설정 1/3</b> · 필수 항목을 다 채우기 전에는 '다음'이 꺼져 있어요(지금은 몸무게 입력 중). 만 14세 미만이면 나이 칸이 빨간 테두리가 되고 "만 14세 이상부터 가입할 수 있어요"가 나와요.</div></div>
+
+<!-- 2/3 -->
+<div class="fr"><div class="phone">
+  <div class="top"><div class="ib"><i data-i="back"></i></div><div class="steps"><i class="on"></i><i class="on"></i><i></i></div><div class="stepn">2/3</div></div>
+  <div class="ttl">일주일에 얼마나<br>운동해 볼까요?</div>
+  <div class="sub">시간으로 정해요. 어떤 운동이든 괜찮아요.</div>
+  <div class="body">
+    <div class="panel goal">
+      <div class="l" style="width:100%;justify-content:center">주간 목표</div>
+      <div class="goalrow">
+        <div class="step"><i data-i="minus" data-s="24"></i></div>
+        <div class="big">4:00</div>
+        <div class="step"><i data-i="plus" data-s="24"></i></div>
+      </div>
+      <div class="pre"><span>2:00</span><span>3:00</span><span class="sel">4:00</span><span>5:00</span><span>7:00</span></div>
+    </div>
+    <div class="note" style="justify-content:center;text-align:center"><span>하루 평균 약 <b style="color:var(--text-sub)">34분</b>이에요.<br>나중에 내 정보에서 언제든 바꿀 수 있어요.</span></div>
+  </div>
+  <div class="foot"><button class="cta">다음</button></div>
+</div>
+<div class="cap"><b>초기 설정 2/3 · 주간 목표</b> · −/+ 는 30분 단위, 프리셋은 빠른 선택. 숫자는 시안의 '숫자가 주인공' 원칙대로 가장 크게. 목표는 그룹과 무관한 개인 하나예요.</div></div>
+
+<!-- 3/3 -->
+<div class="fr"><div class="phone">
+  <div class="top"><div class="ib"><i data-i="back"></i></div><div class="steps"><i class="on"></i><i class="on"></i><i class="on"></i></div><div class="stepn">3/3</div></div>
+  <div class="ttl">자주 하는 운동을<br>골라 주세요</div>
+  <div class="sub">여러 개 골라도 되고, 직접 추가해도 돼요.</div>
+  <div class="body">
+    <div class="chips" id="sp3"></div>
+    <div class="panel">
+      <div class="l"><span><b style="color:var(--text)">러닝</b> 색</span><span>크루원 피드에 이 색으로 보여요</span></div>
+      <div class="pal" id="pal3"></div>
+    </div>
+  </div>
+  <div class="foot"><button class="cta">완료</button><button class="link">나중에 할게요</button></div>
+</div>
+<div class="cap"><b>초기 설정 3/3 · 관심 종목</b> · 기본 추천 5개에서 고르거나 '+ 직접 추가'로 아무 종목이나 입력(예: 클라이밍). 종목마다 8색 팔레트에서 색을 골라요. 라임은 '했다' 신호 전용이라 팔레트에 없어요.</div></div>
+
+</div>
+
+<h2>B · 크루 합류와 만들기</h2>
+<div class="rowf">
+
+<!-- join -->
+<div class="fr"><div class="phone">
+  <div class="top"></div>
+  <div class="ttl" style="margin-top:8px;font-size:36px">민지 님,<br>환영해요</div>
+  <div class="sub">크루장에게 받은 6자리 코드를 입력해 주세요.</div>
+  <div class="body">
+    <div class="fld"><label>초대 코드</label>
+      <div class="cells"><div class="cell">R</div><div class="cell">U</div><div class="cell">N</div><div class="cell cur"></div><div class="cell"></div><div class="cell"></div></div>
+    </div>
+    <div class="hint">초대 링크로 들어오면 코드가 자동으로 채워져요.</div>
+    <div class="demo">베타 데모 코드 <b>RUN24K</b></div>
+  </div>
+  <div class="foot">
+    <button class="cta" disabled>참여하기</button>
+    <div class="div" style="margin:10px 0 8px">크루가 아직 없나요?</div>
+    <button class="cta ghost">새 크루 만들기</button>
+  </div>
+</div>
+<div class="cap"><b>그룹 참여</b> · 칸은 입력할 때마다 다음 칸으로 넘어가고 현재 칸이 라임 테두리예요. 6자리가 차야 '참여하기'가 켜져요. 아래 '새 크루 만들기'가 크루장 진입 경로예요. 데모 코드는 베타에서만 보여요.</div></div>
+
+<!-- join error -->
+<div class="fr"><div class="phone">
+  <div class="top"></div>
+  <div class="ttl" style="margin-top:8px;font-size:36px">민지 님,<br>환영해요</div>
+  <div class="sub">크루장에게 받은 6자리 코드를 입력해 주세요.</div>
+  <div class="body">
+    <div class="fld"><label>초대 코드</label>
+      <div class="cells"><div class="cell err">R</div><div class="cell err">U</div><div class="cell err">N</div><div class="cell err">2</div><div class="cell err">4</div><div class="cell err">X</div></div>
+    </div>
+    <div class="err-t"><i data-i="warn" data-s="16"></i>없는 코드예요. 다시 확인해 주세요.</div>
+  </div>
+  <div class="foot">
+    <button class="cta">참여하기</button>
+    <div class="div" style="margin:10px 0 8px">크루가 아직 없나요?</div>
+    <button class="cta ghost">새 크루 만들기</button>
+  </div>
+</div>
+<div class="cap"><b>그룹 참여 · 오류</b> · 같은 화면에서 칸이 빨간 테두리로 바뀌고 이유가 한 줄로 나와요. 오류 문구는 '없는 코드예요' / '정원 30명이 가득 찼어요' / '이미 참여한 크루예요' 3가지.</div></div>
+
+<!-- create -->
+<div class="fr"><div class="phone">
+  <div class="top"><div class="ib"><i data-i="back"></i></div></div>
+  <div class="ttl">크루 이름을<br>정해 주세요</div>
+  <div class="sub">홈 화면 맨 위에 보여요.</div>
+  <div class="body">
+    <div class="fld"><label>크루 이름 <em>7/20</em></label><div class="inp focus"><span>새벽 러닝크루<span class="caret"></span></span></div></div>
+    <div class="panel" style="gap:10px">
+      <div class="note"><i data-i="check" data-s="16"></i><span>최대 <b style="color:var(--text-sub)">30명</b>까지 함께할 수 있어요.</span></div>
+      <div class="note"><i data-i="check" data-s="16"></i><span>6자리 초대 코드가 자동으로 만들어져요.</span></div>
+      <div class="note"><i data-i="check" data-s="16"></i><span>내가 크루장이 돼요. 한 달 넘게 기록이 없는 크루원은 내보낼 수 있어요.</span></div>
+    </div>
+  </div>
+  <div class="foot"><button class="cta">크루 만들기</button></div>
+</div>
+<div class="cap"><b>그룹 만들기 (크루장)</b> · 이름만 정하면 끝. 크루장 권한 안내를 만들기 전에 미리 보여줘요.</div></div>
+
+<!-- created -->
+<div class="fr"><div class="phone">
+  <div class="top"></div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:20px;text-align:center">
+    <div class="gi" style="width:72px;height:72px;border-radius:22px;font-size:30px;background:var(--lime)">새</div>
+    <div class="ttl" style="margin:0;font-size:28px">크루가 만들어졌어요</div>
+    <div style="font-size:17px;font-weight:700">새벽 러닝크루 <span class="num" style="font-size:18px;color:var(--text-muted);margin-left:6px">1 / 30</span></div>
+  </div>
+  <div class="body" style="margin-top:30px">
+    <div class="panel" style="padding:20px;gap:14px">
+      <div class="l"><span>초대 코드</span><span style="display:flex;gap:6px;align-items:center;color:var(--text-sub);font-weight:700"><i data-i="copy" data-s="16"></i>복사</span></div>
+      <div class="cells"><div class="cell">R</div><div class="cell">U</div><div class="cell">N</div><div class="cell">2</div><div class="cell">4</div><div class="cell">K</div></div>
+      <div class="hint">링크로 들어오면 코드가 자동으로 입력돼요.</div>
+    </div>
+  </div>
+  <div class="foot"><button class="cta">초대 링크 보내기</button><button class="link">나중에 보내고 홈으로</button></div>
+</div>
+<div class="cap"><b>그룹 만들기 완료</b> · 코드는 영문+숫자 6자리(0/O, 1/I 제외)로 자동 생성. '초대 링크 보내기'는 시스템 공유 시트를 열어요. 홈에서도 코드 뱃지를 눌러 다시 공유할 수 있어요.</div></div>
+
+</div>
+
+<h2>C · 기록과 내 정보 (하단 탭 화면)</h2>
+<div class="rowf">
+
+<!-- record -->
+<div class="fr"><div class="phone">
+  <div class="top" style="justify-content:space-between"><div class="ib"><i data-i="x"></i></div><div style="font-size:17px;font-weight:800">운동 기록</div><div style="width:32px"></div></div>
+  <div class="body" style="margin-top:12px;gap:14px">
+    <div class="fld"><label>종목</label>
+      <div class="inp focus" style="gap:10px;justify-content:flex-start"><i style="width:14px;height:14px;border-radius:50%;background:#6FC9A0;display:block"></i><span>러닝</span></div>
+    </div>
+    <div class="chips" id="spr" style="gap:8px"></div>
+    <div class="pal" id="palr" style="margin-top:-2px"></div>
+    <div class="two">
+      <div class="tbox"><div class="l">운동 시간</div>
+        <div class="tm"><div class="b"><i data-i="minus" data-s="18"></i></div><div class="v">0:30</div><div class="b"><i data-i="plus" data-s="18"></i></div></div>
+        <div class="q"><span>15</span><span class="sel">30</span><span>45</span><span>60</span></div>
+      </div>
+      <div class="tbox"><div class="l">시작 시각</div>
+        <div class="when">06:10<small>오늘</small></div>
+      </div>
+    </div>
+    <div class="fld"><label>강도</label><div class="seg"><span>가볍게</span><span class="sel">보통</span><span>힘들게</span></div></div>
+    <div class="fld"><label>메모 <em>선택</em></label><div class="inp"><span>한강 5km, 가볍게</span></div></div>
+  </div>
+  <div class="foot" style="gap:10px"><div class="mode"><i data-i="users" data-s="16"></i><span><b>3개 크루</b>에 함께 반영돼요</span></div><button class="cta">기록하기</button></div>
+</div>
+<div class="cap"><b>운동 기록 입력</b> · 종목은 직접 입력하거나 내 종목 칩에서 골라요. 새 종목이면 색 팔레트가 나오고, 시간은 −/+ 5분 단위나 빠른 칩으로 정해요. 하루 합계가 24시간을 넘으면 저장할 때 막혀요. 저장하면 홈의 내 링이 켜져요.</div></div>
+
+<!-- my info -->
+<div class="fr"><div class="phone" style="padding-bottom:0">
+  <div class="top" style="margin-top:4px"><div style="font-size:26px;font-weight:800">내 정보</div></div>
+  <div class="body" style="margin-top:14px;gap:14px;overflow:hidden">
+    <div class="prof">
+      <div class="av" style="width:60px;height:60px;font-size:20px;background:#6FC9A0">민지</div>
+      <div style="flex:1"><div style="font-size:19px;font-weight:800">민지</div><div style="font-size:13px;color:var(--text-muted)">kakao 계정으로 로그인</div></div>
+      <div style="font-size:14px;color:var(--text-sub);padding:8px 14px;border-radius:999px;background:var(--field)">수정</div>
+    </div>
+    <div class="list">
+      <div class="li"><span>주간 목표</span><span class="r"><span class="n">4:00</span><i data-i="chev" data-s="18"></i></span></div>
+      <div class="li"><span>신체 정보</span><span class="r"><span>비공개</span><i data-i="chev" data-s="18"></i></span></div>
+      <div class="li"><span>내 종목과 색</span><span class="r"><span class="dots"><i style="background:#6FC9A0"></i><i style="background:#5CC8FF"></i><i style="background:#FFFFFF"></i></span><i data-i="chev" data-s="18"></i></span></div>
+    </div>
+    <div class="list">
+      <div class="li"><span>개인정보 처리방침</span><span class="r"><i data-i="chev" data-s="18"></i></span></div>
+      <div class="li"><span>로그아웃</span><span class="r"><i data-i="chev" data-s="18"></i></span></div>
+      <div class="li dg"><span>계정 삭제</span><span class="r"><i data-i="chev" data-s="18"></i></span></div>
+    </div>
+  </div>
+  <div class="tabbar" data-tab="me"></div>
+</div>
+<div class="cap"><b>내 정보 (하단 3탭 + 기록 버튼)</b> · 프로필·신체 정보 수정, 주간 목표, 로그아웃, 앱스토어 심사 필수인 계정 삭제(위험색, 확인 시트 한 번 더). '내 종목과 색'에서 종목 이름·색을 바꾸고 지울 수 있어요. 그룹 나가기와 코드 공유는 P1이라 뺐어요. 오른쪽 아래 '기록' 버튼은 모든 탭 화면에서 같은 자리에 떠 있어요.</div></div>
+
+<!-- tab bar reference -->
+<div class="fr"><div class="phone" style="height:auto;min-height:0;padding:20px;gap:14px">
+  <div style="font-size:13px;color:var(--text-muted)">하단 탭 3개 + 띄운 기록 버튼 (홈 · 랭킹 · 내 정보)</div>
+  <div style="position:relative;height:170px;border-radius:24px;overflow:hidden;border:1px solid var(--card-border)"><div class="tabbar" data-tab="home"></div></div>
+  <div style="font-size:13px;color:var(--text-muted)">선택된 탭은 글자색 text + 700, 나머지는 #8A9086. 기록 버튼은 시안의 라임 둥근 사각형(64×56)을 그대로 쓰되 탭 바에서 빼서 '내 정보' 탭 바로 위, 12px 띄워 배치해요.</div>
+</div></div>
+
+</div>
+</div>
+
+<script>
+const I={
+ back:'<path d="M15 5l-7 7 7 7" />',x:'<path d="M6 6l12 12M18 6L6 18"/>',plus:'<path d="M12 5v14M5 12h14"/>',minus:'<path d="M5 12h14"/>',
+ check:'<path d="M5 12l5 5 9-10"/>',chev:'<path d="M9 6l6 6-6 6"/>',lock:'<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 018 0v3"/>',
+ warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.5"/>',copy:'<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/>',
+ users:'<circle cx="9" cy="9" r="3"/><path d="M3 19c0-3 3-5 6-5s6 2 6 5"/><path d="M16 6a3 3 0 010 6M18 14c2 .6 3 2.4 3 5"/>',
+ home:'<path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',rank:'<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4v2a3 3 0 0 0 3 3M17 6h3v2a3 3 0 0 1-3 3"/>',me:'<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>'
+};
+function icon(n,s){return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${I[n]}</svg>`}
+document.querySelectorAll('i[data-i]').forEach(e=>{e.outerHTML=icon(e.dataset.i,+(e.dataset.s||24))});
+const P=[['sky','#5CC8FF'],['coral','#FF7A66'],['violet','#B79CFF'],['amber','#FFC24D'],['mint','#6FC9A0'],['pink','#FF8FC7'],['orange','#FF9E4A'],['white','#FFFFFF']];
+const pal=(sel)=>P.map(([k,h],i)=>`<div class="d ${i==sel?'sel':''}" style="background:${h}">${i==sel?icon('check',16):''}</div>`).join('');
+document.getElementById('pal3').innerHTML=pal(4);
+document.getElementById('palr').innerHTML='';
+document.getElementById('palr').style.display='none';
+// 3/3 chips
+const sp=(n,c,on)=>`<span class="sp ${on?'on':''}" style="${on?`background:${c}24;border-color:${c};color:${c}`:''}">${on?icon('check',16):`<i style="background:${c}"></i>`}${n}</span>`;
+document.getElementById('sp3').innerHTML=[['러닝','#6FC9A0',1],['수영','#5CC8FF',1],['헬스','#FF7A66',0],['요가','#B79CFF',0],['사이클','#FFC24D',0],['클라이밍','#FFFFFF',1]].map(a=>sp(...a)).join('')+'<span class="sp add">'+icon('plus',16)+'직접 추가</span>';
+// record chips: my sports
+document.getElementById('spr').innerHTML=[['러닝','#6FC9A0',1],['수영','#5CC8FF',0],['클라이밍','#FFFFFF',0]].map(([n,c,on])=>`<span class="sp ${on?'on':''}" style="height:38px;font-size:14px;padding:0 13px;${on?`background:${c}24;border-color:${c};color:${c}`:''}">${on?'':`<i style="background:${c}"></i>`}${n}</span>`).join('')+'<span class="sp add" style="height:38px;font-size:14px;padding:0 13px">'+icon('plus',14)+'새 종목</span>';
+// tab bars
+document.querySelectorAll('.tabbar').forEach(t=>{const k=t.dataset.tab;
+ t.innerHTML=`<div class="t ${k=='home'?'sel':''}">${icon('home',24)}홈</div><div class="t ${k=='rank'?'sel':''}">${icon('rank',24)}랭킹</div><div class="t ${k=='me'?'sel':''}">${icon('me',24)}내 정보</div><div class="fab">${icon('plus',22)}기록</div>`});
+</script>
+</body>
+</html>
